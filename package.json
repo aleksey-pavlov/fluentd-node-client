@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Buffered node js fluentd client",
   "main": "build/fluent-client-factory.js",
+  "types": "build/@types",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
