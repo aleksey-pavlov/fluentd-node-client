@@ -1,13 +1,17 @@
 {
   "name": "fluentd-client",
   "version": "1.0.0",
-  "description": "",
-  "main": "./build/fluent-client.js",
+  "description": "Buffered node js fluentd client",
+  "main": "build/fluent-client-factory.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
-  "author": "",
+  "author": "Aleksey Pavlov",
   "license": "ISC",
+  "devDependencies": {
+    "typescript": "^2.8.3"
+  },
   "dependencies": {
     "fluent-logger": "^2.6.2"
   }

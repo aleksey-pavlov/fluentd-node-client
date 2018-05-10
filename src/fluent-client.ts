@@ -5,30 +5,41 @@ export class FluentClient implements IFluentClient {
 
     private sender: IFluentClientSender;
 
-    constructor(params: { host: string, port: number, prefix: string }) {
+    constructor(params: TFluentClientConnectParams) {
+        try {
+            let buffer: IFluentClientBuffer = new FluentClientBuffer();
+            let client: IFluentClientSender = fluentd.createFluentSender(params.prefix, {
+                host: params.host,
+                port: params.port,
+                timeout: 3.0,
+                reconnectInterval: 10000
+            });
 
-        let buffer: IFluentClientBuffer = new FluentClientBuffer();
-        let client: IFluentClientSender = fluentd.createFluentSender(params.prefix, {
-            host: params.host,
-            port: params.port,
-            timeout: 3.0,
-            reconnectInterval: 10000
-        });
+            client.on("error", () => {
+                this.sender = buffer;
+                console.error("Connection refused! Use buffer sender!");
+            });
 
-        this.sender = client;
-        client.on("error", (error) => {
-            this.sender = buffer;
-        });
+            client.on("connect", () => {
+                this.sender = client;
+                console.info("Connection success! Use fluent sender!");
+                buffer.flush((tag, data, time) => {
+                    this.sender.emit(tag, data, time);
+                });
+            });
 
-        client.on("connect", () => {
             this.sender = client;
-            buffer.flush((tag, data, time) => {
-                this.sender.emit(tag, data, time);
-            })
-        });
+
+        } catch (err) {
+            console.error(err.stack);
+        }
     }
 
     public send(tag: string, data: any, time?: number): void {
-        this.sender.emit(tag, data, time);
+        try {
+            this.sender.emit(tag, data, time);
+        } catch (err) {
+            console.error(err.stack);
+        }
     }
 }
