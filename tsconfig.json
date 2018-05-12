@@ -5,8 +5,7 @@
     "sourceMap": true,
     "outDir": "./build",
     "sourceRoot": "./src",
-    "declaration": true,
-    "declarationDir": "./build/@types"
+    "declaration": true
   },
   "exclude": [
     "node_modules"
