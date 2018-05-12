@@ -1,4 +1,4 @@
-import { FluentClient } from "./fluent-client";
+import { FluentClient, TFluentClientConnectParams } from "./fluent-client";
 
 export class FluentClientFactory {
 

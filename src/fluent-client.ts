@@ -1,5 +1,17 @@
+export interface IFluentClientSender {
+    emit: (tag: string, data: any, time: number) => void;
+    on?: (event: string, cb: any) => void;
+}
+
+export interface IFluentClient {
+    send(tag: string, data: any, time: number): void;
+}
+
+export type TFluentClientConnectParams = { host: string, port: number, prefix: string };
+
+
 import * as fluentd from "fluent-logger";
-import { FluentClientBuffer } from "./fluent-client-buffer";
+import { FluentClientBuffer, IFluentClientBuffer } from "./fluent-client-buffer";
 
 export class FluentClient implements IFluentClient {
 
